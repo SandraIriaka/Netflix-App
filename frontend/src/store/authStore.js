@@ -3,7 +3,7 @@ import axios from "axios";
 
 axios.defaults.withCredentials = true;
 
-const API_URL = "https://aiflix-ab8d.onrender.com/api";
+const API_URL = "http://backend-svc:5000/api";
 
 export const useAuthStore = create((set) => ({
   // initial states

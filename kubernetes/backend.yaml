@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  labels:
+    app: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-svc
+  template:
+    metadata:
+      labels:
+        app: backend-svc
+    spec:
+      containers:
+      - name: backend-netflix-app
+        image: sandyxixi/backend-netflix-app:v1
+        ports:
+        - containerPort: 5000
+        # env:
+        # - name: MONGODB_URI
+        #   valueFrom:
+        #     configMapKeyRef:
+        #       name: bank-config
+        #       key: MONGODB_URI
+        # - name: DB_NAME
+        #   valueFrom:
+        #     configMapKeyRef:
+        #       name: bank-config
+        #       key: DB_NAME
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-svc
+spec:
+  selector:
+    app: backend-svc
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+  type: ClusterIP

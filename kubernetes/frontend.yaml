@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  labels:
+    app: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend-service
+  template:
+    metadata:
+      labels:
+        app: frontend-service
+    spec:
+      containers:
+      - name: netflix-frontend-app
+        image: sandyxixi/frontend-netflix-app:v1
+        ports:
+        - containerPort: 5173
+        # env:
+        # - name: API_BASE_URL
+        #   valueFrom:
+        #     configMapKeyRef:
+        #       name: bank-config
+        #       key: API_BASE_URL
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  selector:
+    app: frontend-service
+  ports:
+    - protocol: TCP
+      port: 5173
+      targetPort: 5173
+  type: NodePort

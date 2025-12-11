@@ -9,3 +9,4 @@ export async function connectToDB() {
     process.exit(1);
   }
 }
+
